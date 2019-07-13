@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 )
 
 func handleRoot(writer http.ResponseWriter, request *http.Request) {
@@ -13,7 +14,11 @@ func handleRoot(writer http.ResponseWriter, request *http.Request) {
 }
 
 func main() {
-	fmt.Println("starting server...")
 	http.HandleFunc("/", handleRoot)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "4000"
+	}
+	fmt.Println("server listening on port " + port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
