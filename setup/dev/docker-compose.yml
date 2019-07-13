@@ -1,0 +1,28 @@
+version: '3'
+services:
+  back:
+    build:
+      context: ../../backend/
+      dockerfile: dev.dockerfile
+    expose:
+      - 4000
+    ports:
+      - 4000:4000
+    volumes:
+      - ../../backend/:/app/
+    environment:
+      - PORT=4000
+  front:
+    build:
+      context: ../../frontend/
+      dockerfile: dev.dockerfile
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    environment:
+      - PORT=3000
+    volumes:
+      - ../../frontend/:/app
+    links:
+      - back
