@@ -4,6 +4,7 @@ docker run \
   -u root \
   --rm \
   -d \
+  --restart=always \
   -p 7070:8080 \
   -p 50000:50000 \
   -v $HOME/jenkins-home:/var/jenkins_home \
