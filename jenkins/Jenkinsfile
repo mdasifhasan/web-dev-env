@@ -13,7 +13,6 @@ pipeline {
                     agent {
                         docker {
                             image 'node:12-alpine'
-                            args '-p 3000:3000'
                         }
                     }                
                     stages {
@@ -41,7 +40,6 @@ pipeline {
                     agent {
                         docker {
                             image 'golang:1.12-alpine3.10'
-                            args '-p 8080:8080'
                         }
                     }                
                     stages {
