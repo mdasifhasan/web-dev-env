@@ -1,22 +1,59 @@
-#!/usr/bin/env groovy
+def frontend = 'frontend'
+def backend = 'backend'
 
 pipeline {
-    agent any
-
+    agent none
     stages {
-        stage('Build') {
-            steps {
-                echo 'Building..'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
+        stage ('TEST'){
+            parallel {            
+                stage ('Frontend') {
+                    environment {
+                        CI = 'true'
+                    }
+                    agent {
+                        docker {
+                            image 'node:12-alpine'
+                            args '-p 3000:3000'
+                        }
+                    }                
+                    stages {
+                        stage('Frontend-Install') {
+                            steps {
+                                dir(frontend){
+                                    sh 'mkdir bk'
+                                    sh 'cp package.json ./bk/package.json'
+                                    sh 'cd bk && npm install'
+                                    sh 'mv bk/node_modules node_modules'
+                                    sh 'rm -rf bk'
+                                }
+                            }
+                        }
+                        stage('Frontend-Test') {
+                            steps {
+                                dir(frontend){
+                                    sh 'npm test'
+                                }
+                            }
+                        }
+                    }
+                }
+                stage ('Backend') {
+                    agent {
+                        docker {
+                            image 'golang:1.12-alpine3.10'
+                            args '-p 8080:8080'
+                        }
+                    }                
+                    stages {
+                        stage('Backend-Test') {
+                            steps {
+                                dir(backend){
+                                    sh 'CGO_ENABLED=0 GOOS=linux go test'
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
