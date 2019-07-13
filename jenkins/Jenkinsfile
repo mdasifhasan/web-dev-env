@@ -79,8 +79,8 @@ pipeline {
                             post {
                                 always {
                                     dir(backend){
-                                        sh 'CGO_ENABLED=0 GOOS=linux gocover-cobertura < coverage.txt > coverage.xml'
-                                        cobertura coberturaReportFile: 'coverage.xml'
+                                        sh 'CGO_ENABLED=0 GOOS=linux gocover-cobertura < coverage.txt > cobertura-coverage.xml'
+                                        cobertura coberturaReportFile: 'cobertura-coverage.xml'
                                     }
                                 }
                             }
@@ -91,7 +91,9 @@ pipeline {
                                 script {
                                     currentBuild.result = 'SUCCESS'
                                 }
-                                step([$class: 'MasterCoverageAction', scmVars: [GIT_URL: env.GIT_URL]])
+                                dir(backend){
+                                    step([$class: 'MasterCoverageAction', publishResultAs: 'statusCheck', scmVars: [GIT_URL: env.GIT_URL]])
+                                }
                             }
                         }
                         stage('PR Coverage to Github') {
@@ -100,7 +102,9 @@ pipeline {
                                 script {
                                     currentBuild.result = 'SUCCESS'
                                 }
-                                step([$class: 'CompareCoverageAction', publishResultAs: 'statusCheck', scmVars: [GIT_URL: env.GIT_URL]])
+                                dir(backend){
+                                    step([$class: 'CompareCoverageAction', publishResultAs: 'statusCheck', scmVars: [GIT_URL: env.GIT_URL]])
+                                }
                             }
                         }
                     }
