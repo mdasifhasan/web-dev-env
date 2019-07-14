@@ -1,0 +1,13 @@
+{
+  "name": "merge-cobertura",
+  "description": "Merge cobertura reports in XML format.",
+  "main": "merge-cobertura.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jérémy Legros",
+  "license": "MIT",
+  "devDependencies": {
+    "xml2js": "^0.4.19"
+  }
+}
