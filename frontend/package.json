@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.19.0",
+    "eslint-plugin-react-hooks": "^1.6.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1"
@@ -13,6 +14,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:ci": "react-scripts test --env=jsdom --reporters=default --reporters=jest-junit --coverage --coverageDirectory=coverage",
+    "test:all": "CI=true react-scripts test --coverage --watchAll=True",
+    "cy:open": "cypress open",
     "eject": "react-scripts eject"
   },
   "jest": {
@@ -23,11 +26,14 @@
       "!**/definitionfiles/**",
       "!**/WebWrokers/**",
       "!**/*.mock.js",
-      "!src/setupTests.js"
+      "!src/setupTests.js",
+      "!src/index.js",
+      "!src/serviceWorker.js"
     ],
     "coverageReporters": [
       "text",
-      "cobertura"
+      "cobertura",
+      "lcov"
     ]
   },
   "jest-junit": {
@@ -55,6 +61,9 @@
   },
   "proxy": "http://back:4000",
   "devDependencies": {
+    "@testing-library/jest-dom": "^4.0.0",
+    "@testing-library/react": "^8.0.6",
+    "cypress": "^3.4.0",
     "jest-junit": "^6.4.0",
     "react-test-renderer": "^16.8.6"
   }

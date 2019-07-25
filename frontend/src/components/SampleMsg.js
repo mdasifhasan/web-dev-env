@@ -1,35 +1,21 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
-class SampleMsg extends React.Component {
 
-    constructor(props){
-        super(props)
+export default function SampleMsg(){
+    const [msg, setMsg] = useState('');
+    
+    useEffect(() => {
+        async function fetchData(){
+            const response = await axios.get("/api");
+            setMsg(response.data);
+        };
+        fetchData();
+    }, []);
 
-        this.state = {
-            msg : "Hi!"
-        }
-    }
-
-    componentDidMount() {
-        axios.get("/api")
-            .then(res => {
-                console.log("res");
-                this.setState({
-                    msg:res.data
-                })
-            })
-            .catch(err => {
-
-            })
-    }
-
-    render(){
-        return (
-          <div>{this.state.msg}</div>
-        );
-    }
-
+    return (
+        <div>
+            {msg && <span data-testid="messageText">{msg}</span>}
+        </div>
+    );
 }
-
-export default SampleMsg;

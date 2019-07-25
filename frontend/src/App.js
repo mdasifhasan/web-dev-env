@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import SampleMsg from './components/SampleMsg'
+import Counter from './components/Counter'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           simple-web-app
         </p>
         <SampleMsg/>
+        <Counter/>
       </header>
     </div>
   );
