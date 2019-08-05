@@ -63,7 +63,7 @@ pipeline {
 
                                     // go2xunit
                                     sh 'CGO_ENABLED=0 GOOS=linux go get github.com/tebeka/go2xunit'
-                                    sh 'CGO_ENABLED=0 GOOS=linux go test -v | go2xunit -output report.xml'
+                                    sh 'CGO_ENABLED=0 GOOS=linux go test -v ./... | go2xunit -output report.xml'
 
                                     //junit-report
                                     // sh 'CGO_ENABLED=0 GOOS=linux go get -u github.com/jstemmer/go-junit-report'
